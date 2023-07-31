@@ -1,0 +1,48 @@
+BONUS.
+
+Problem3
+
+Given a matrix A of m × n integers (non-negative) representing the predicted prices of m stocks for n days and an integer c (positive), find the maximum profit with no restriction on number of transactions. However, you cannot buy any stock for c days after selling any stock. If you sell a stock at day i, you are not allowed to buy any stock until day i+c+1
+
+ALG7 Design a Θ(m ∗ 2^n) time brute force algorithm for solving Problem3
+TASK7 Give an implementation of Alg7.
+
+
+function main()
+    Initialization : 
+    prices : 2D integer list of prices for m stocks and n days
+    
+    res = maxProfit(prices, c)
+
+    Print res
+
+function maxProfit(prices, c)
+
+    FOREACH stock i : 0 to m.
+        temp_profit = dfs(i, 0, true, prices)
+        max_profit = max(max_profit, temp_profit)
+    
+    return max_profit.
+
+function dfs( curStock, curDay, buying, prices, c)
+    s = str(curStock)+"_"+str(curDay)
+
+    if buying:
+        buy = dfs(curStock, curDay+1, !buying, prices, c) - prices[curStock][curDay]
+        cooldown = dfs(curStock, curDay+1, buying, prices, c)
+
+        return max(buy, cooldown)
+
+    else:
+        FOREACH stock i : 0 to m.
+            temps = str(i)+"_"+str(curDay)
+
+            sell = dfs(i, curDay+c+1, !buying, prices, c) + prices[curStock][curDay]
+            cooldown = dfs(i, curDay+1, buying, prices, c)
+            return max(sell, cooldown)
+    
+    return 0
+
+Time Complexity : O(m * 2^n)
+Space Complexity : O(m * n)
+
